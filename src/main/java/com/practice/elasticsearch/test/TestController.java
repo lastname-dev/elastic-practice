@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practice.elasticsearch.csv.CSVReader;
-import com.practice.elasticsearch.feign.CoordinateDto;
+import com.practice.elasticsearch.store.Location;
 import com.practice.elasticsearch.store.StoreDto;
 import com.practice.elasticsearch.store.StoreService;
 
@@ -22,13 +22,13 @@ public class TestController {
 	private final CSVReader csvReader;
 	private final StoreService storeService;
 	@GetMapping("/{name}")
-	public ResponseEntity<CoordinateDto> getCoordinate(@PathVariable String name) {
+	public ResponseEntity<Void> getCoordinate(@PathVariable String name) {
 		csvReader.readCSV(name);
-		return ResponseEntity.ok(null);
+		return ResponseEntity.ok().build();
 	}
 	@PostMapping
 	public ResponseEntity<Void> saveStores() {
-		StoreDto storeDto = new StoreDto(2,"안녕하세요 저는 홍길동 입니다.","서울시",33,126);
+		StoreDto storeDto = new StoreDto(2,"안녕하세요 저는 홍길동 입니다.","서울시",new Location(33,111));
 		storeService.save(storeDto);
 		return ResponseEntity.ok().build();
 	}
