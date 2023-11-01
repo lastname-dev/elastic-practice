@@ -18,15 +18,13 @@ public class Store {
 	private Long id;
 	private String name;
 	private String address;
-	private double lat;
-	private double lon;
+	private Location location;
 
 	public static Store from(StoreDto storeDto) {
 		return Store.builder()
 			.id(storeDto.getId())
 			.name(storeDto.getName())
-			.lat(storeDto.getLat())
-			.lon(storeDto.getLon())
+			.location(storeDto.getLocation())
 			.address(storeDto.getAddress())
 			.build();
 	}
