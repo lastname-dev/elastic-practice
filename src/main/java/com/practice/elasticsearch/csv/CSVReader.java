@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CSVReader {
 	public void readCSV(String name) {
 
 		try {
-			String filePath = new String(FILE_PATH.getBytes("UTF-8"), "UTF-8");
+			String filePath = new String(FILE_PATH.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
 			File file = new File(filePath+name+".csv");
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "EUC-KR"));
 			String line;
@@ -42,7 +43,7 @@ public class CSVReader {
 				aLine = Arrays.asList(lineArr);
 
 				if(aLine.get(10).equals("영업")) {
-					if(aLine.get(26)=="" || aLine.get(27)==""){
+					if(aLine.get(26).equals("") || aLine.get(27).equals("")){
 						continue;
 					}
 					CoordinateDto coordinate = feignService.getCoordinate(Double.parseDouble(aLine.get(26)),

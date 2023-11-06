@@ -12,10 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class StoreService {
 
+	private final ElasticStoreRepository elasticStoreRepository;
 	private final StoreRepository storeRepository;
 
 	@Transactional
 	public void save(StoreDto storeDto) {
-		storeRepository.save(Store.from(storeDto));
+		Store savedStore = storeRepository.save(Store.from(storeDto));
+		elasticStoreRepository.save(savedStore);
 	}
 }

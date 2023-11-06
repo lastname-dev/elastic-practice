@@ -1,6 +1,8 @@
 package com.practice.elasticsearch.store;
 
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface StoreRepository extends ElasticsearchRepository<Store,Long> {
+@Repository
+public interface StoreRepository extends JpaRepository<Store,Long> {
 }
