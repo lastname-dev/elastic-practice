@@ -1,5 +1,7 @@
 package com.practice.elasticsearch.store;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +18,10 @@ public class StoreService {
 	private final StoreRepository storeRepository;
 
 	@Transactional
-	public void save(StoreDto storeDto) {
-		Store savedStore = storeRepository.save(Store.from(storeDto));
-		elasticStoreRepository.save(savedStore);
+	public void save() {
+		List<Store> all = storeRepository.findAll();
+		for(Store store : all) {
+			elasticStoreRepository.save(store);
+		}
 	}
 }
