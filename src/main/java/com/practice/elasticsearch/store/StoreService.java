@@ -1,7 +1,10 @@
 package com.practice.elasticsearch.store;
 
+import java.io.IOException;
+
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
@@ -29,13 +32,24 @@ public class StoreService {
 	}
 
 	@Transactional
-	public void search(double topLat, double topLong, double bottomLat, double bottomLong) {
+	public void searchAll(double topLat, double topLong, double bottomLat, double bottomLong) throws IOException {
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder()
-			.query(new GeoBoundingBoxQueryBuilder("location").setCorners(new GeoPoint(topLat,topLong),new GeoPoint(bottomLat,bottomLong)));
+			.query(new GeoBoundingBoxQueryBuilder("location").setCorners(new GeoPoint(topLat,bottomLong),new GeoPoint(bottomLat,topLong)));
 
 		SearchRequest searchRequest = new SearchRequest("stores").source(searchSourceBuilder);
 
-		SearchResponse searchResponse =client.search(searchRequest,ResultOpt)
+		SearchResponse searchResponse =client.search(searchRequest, RequestOptions.DEFAULT);
 
+		log.info("결과 : {}",searchResponse.toString());
+	}
+	@Transactional
+	public void searchByName(double topLat, double topLong, double bottomLat, double bottomLong,String name) throws
+		IOException {
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder()
+			.query(new GeoBoundingBoxQueryBuilder("location").setCorners(new GeoPoint(topLat,bottomLong),new GeoPoint(bottomLat,topLong)));
+
+		SearchRequest searchRequest = new SearchRequest("stores").source(searchSourceBuilder);
+
+		SearchResponse searchResponse =client.search(searchRequest, RequestOptions.DEFAULT);
 	}
 }

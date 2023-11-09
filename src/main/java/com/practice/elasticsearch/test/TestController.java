@@ -1,5 +1,7 @@
 package com.practice.elasticsearch.test;
 
+import java.io.IOException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.practice.elasticsearch.csv.CSVReader;
+// import com.practice.elasticsearch.csv.CSVReader;
 import com.practice.elasticsearch.store.Location;
 import com.practice.elasticsearch.store.StoreDto;
 import com.practice.elasticsearch.store.StoreService;
@@ -20,11 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TestController {
 
-	private final CSVReader csvReader;
+	// private final CSVReader csvReader;
 	private final StoreService storeService;
 	@GetMapping("/{name}")
 	public ResponseEntity<Void> getCoordinate(@PathVariable String name) {
-		csvReader.readCSV(name);
+		// csvReader.readCSV(name);
 		return ResponseEntity.ok().build();
 	}
 	@PostMapping
@@ -34,7 +36,15 @@ public class TestController {
 		return ResponseEntity.ok().build();
 	}
 	@GetMapping
-	public ResponseEntity<Void> searchStores(@RequestParam double topLat, @RequestParam double topLong, @RequestParam double bottomLat, @RequestParam double bottomLong) {
-		storeService.search(topLat,topLong,bottomLat,bottomLong);
+	public ResponseEntity<Void> searchStores(@RequestParam double topLat, @RequestParam double topLong, @RequestParam double bottomLat, @RequestParam double bottomLong) throws
+		IOException {
+		storeService.searchAll(topLat,topLong,bottomLat,bottomLong);
+		return ResponseEntity.ok().build();
+	}
+	@GetMapping("/{name}")
+	public ResponseEntity<Void> searchStoreByName(@RequestParam double topLat, @RequestParam double topLong, @RequestParam double bottomLat, @RequestParam double bottomLong ,@PathVariable String name) throws
+		IOException {
+		storeService.searchByName(topLat,topLong,bottomLat,bottomLong,name);
+		return ResponseEntity.ok().build();
 	}
 }
