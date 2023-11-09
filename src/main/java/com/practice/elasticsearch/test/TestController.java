@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practice.elasticsearch.csv.CSVReader;
@@ -31,5 +32,9 @@ public class TestController {
 		StoreDto storeDto = new StoreDto(2,"안녕하세요 저는 홍길동 입니다.","서울시",new Location(33,111));
 		storeService.save(storeDto);
 		return ResponseEntity.ok().build();
+	}
+	@GetMapping
+	public ResponseEntity<Void> searchStores(@RequestParam double topLat, @RequestParam double topLong, @RequestParam double bottomLat, @RequestParam double bottomLong) {
+		storeService.search(topLat,topLong,bottomLat,bottomLong);
 	}
 }
