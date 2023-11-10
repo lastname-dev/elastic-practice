@@ -14,6 +14,8 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +28,7 @@ public class StoreService {
 	private final ElasticStoreRepository elasticStoreRepository;
 	private final StoreRepository storeRepository;
 	private final RestHighLevelClient client;
+	private final ObjectMapper objectMapper;
 
 	@Transactional
 	public void save(StoreDto storeDto) {
@@ -62,5 +65,9 @@ public class StoreService {
 
 		SearchRequest searchRequest = new SearchRequest("stores").source(searchSourceBuilder);
 		SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+
+		String resultJson = searchResponse.toString();
+		StoreResultDto storeResultDto = objectMapper.readValue(resultJson, StoreResultDto.class);
+		log.info("result : {}", storeResultDto.getHits().getHits()[0].get_source().getName());
 	}
 }

@@ -41,8 +41,8 @@ public class TestController {
 		storeService.searchAll(topLat,topLong,bottomLat,bottomLong);
 		return ResponseEntity.ok().build();
 	}
-	@GetMapping("/{name}")
-	public ResponseEntity<Void> searchStoreByName(@RequestParam double topLat, @RequestParam double topLong, @RequestParam double bottomLat, @RequestParam double bottomLong ,@PathVariable String name) throws
+	@GetMapping("/search")
+	public ResponseEntity<Void> searchStoreByName(@RequestParam double topLat, @RequestParam double topLong, @RequestParam double bottomLat, @RequestParam double bottomLong ,@RequestParam String name) throws
 		IOException {
 		storeService.searchByName(topLat,topLong,bottomLat,bottomLong,name);
 		return ResponseEntity.ok().build();
