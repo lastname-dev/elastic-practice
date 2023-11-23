@@ -1,6 +1,8 @@
 package com.practice.elasticsearch.store;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -11,8 +13,10 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -69,5 +73,9 @@ public class StoreService {
 		String resultJson = searchResponse.toString();
 		StoreResultDto storeResultDto = objectMapper.readValue(resultJson, StoreResultDto.class);
 		log.info("result : {}", storeResultDto.getHits().getHits()[0].get_source().getName());
+	}
+	public List<String> popularSearch (String name) {
+
+		return new ArrayList<>();
 	}
 }

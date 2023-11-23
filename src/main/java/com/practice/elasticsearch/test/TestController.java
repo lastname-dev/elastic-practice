@@ -47,4 +47,8 @@ public class TestController {
 		storeService.searchByName(topLat,topLong,bottomLat,bottomLong,name);
 		return ResponseEntity.ok().build();
 	}
+	@GetMapping("/popluar")
+	public ResponseEntity<?> popularSearch(@RequestParam String name) {
+		return ResponseEntity.ok(storeService.popularSearch(name));
+	}
 }
